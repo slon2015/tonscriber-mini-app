@@ -1,12 +1,13 @@
-import { useUtils } from '@tma.js/sdk-react';
-import { TonConnectButton, useTonWallet } from '@tonconnect/ui-react';
-import type { FC, ReactNode } from 'react';
+import { useUtils } from "@tma.js/sdk-react";
+import { TonConnectButton, useTonWallet } from "@tonconnect/ui-react";
+import type { FC, ReactNode } from "react";
+import { Typography } from "antd";
 
-import { DisplayData } from '~/components/DisplayData/DisplayData.tsx';
-import { Link } from '~/components/Link/Link.tsx';
-import { Page } from '~/components/Page/Page.tsx';
+import { DisplayData } from "~/components/DisplayData/DisplayData.tsx";
+import { Link } from "~/components/Link/Link.tsx";
+import { Page } from "~/components/Page/Page.tsx";
 
-import './TONConnectPage.css';
+import "./TONConnectPage.css";
 
 export const TONConnectPage: FC = () => {
   const wallet = useTonWallet();
@@ -14,14 +15,10 @@ export const TONConnectPage: FC = () => {
   let content: ReactNode;
 
   if (wallet) {
-    const {
-      chain,
-      publicKey,
-      address,
-    } = wallet.account;
+    const { chain, publicKey, address } = wallet.account;
     content = (
       <>
-        {'imageUrl' in wallet && (
+        {"imageUrl" in wallet && (
           <div className="ton-connect-page__provider">
             <img
               className="ton-connect-page__provider-image"
@@ -31,15 +28,13 @@ export const TONConnectPage: FC = () => {
               height={60}
             />
             <div className="ton-connect-page__provider-meta">
-              <p className="ton-connect-page__provider-wallet-name">
+              <Typography.Paragraph className="ton-connect-page__provider-wallet-name">
                 {wallet.name}
                 &nbsp;
-                <span className="ton-connect-page__provider-app-name">
-                  (
-                  {wallet.appName}
-                  )
-                </span>
-              </p>
+                <Typography.Text className="ton-connect-page__provider-app-name">
+                  ({wallet.appName})
+                </Typography.Text>
+              </Typography.Paragraph>
               <Link
                 to={wallet.aboutUrl}
                 onClick={(e) => {
@@ -54,18 +49,19 @@ export const TONConnectPage: FC = () => {
         )}
         <DisplayData
           rows={[
-            { title: 'Address', value: address },
-            { title: 'Chain', value: chain },
-            { title: 'Public Key', value: publicKey },
+            { title: "Address", value: address },
+            { title: "Chain", value: chain },
+            { title: "Public Key", value: publicKey },
           ]}
         />
       </>
     );
   } else {
     content = (
-      <p>
-        To display the data related to the TON Connect, it is required to connect your wallet.
-      </p>
+      <Typography.Paragraph>
+        To display the data related to the TON Connect, it is required to
+        connect your wallet.
+      </Typography.Paragraph>
     );
   }
 

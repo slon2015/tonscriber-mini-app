@@ -1,31 +1,29 @@
-import type { FC } from 'react';
+import type { FC } from "react";
+import { Typography } from "antd";
 
-import { Link } from '~/components/Link/Link.tsx';
-import { Page } from '~/components/Page/Page.tsx';
-import { routes } from '~/navigation/routes.tsx';
-
-import './IndexPage.css';
+import { Link } from "~/components/Link/Link.tsx";
+import { Page } from "~/components/Page/Page.tsx";
+import { routes } from "~/navigation/routes.tsx";
 
 export const IndexPage: FC = () => {
   return (
     <Page title="Home Page">
-      <p>
-        This page is a home page in this boilerplate. You can use the links below to visit other
-        pages with their own functionality.
-      </p>
-      <ul className="index-page__links">
-        {routes.map(({ path, title, icon }) => title && (
-          <li className="index-page__link-item" key={path}>
-            <Link className="index-page__link" to={path}>
-              {icon && (
-                <i className="index-page__link-icon">
-                  {icon}
-                </i>
-              )}
-              {title}
-            </Link>
-          </li>
-        ))}
+      <Typography.Paragraph>
+        This page is a home page in this boilerplate. You can use the links
+        below to visit other pages with their own functionality.
+      </Typography.Paragraph>
+      <ul className="list-none pl-0 space-y-2.5">
+        {routes.map(
+          ({ path, title, icon }) =>
+            title && (
+              <li key={path}>
+                <Link className="font-bold inline-flex gap-2" to={path}>
+                  {icon && <i className="w-5 block">{icon}</i>}
+                  {title}
+                </Link>
+              </li>
+            )
+        )}
       </ul>
     </Page>
   );

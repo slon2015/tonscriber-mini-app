@@ -1,21 +1,25 @@
-import { useInitData, useInitDataRaw } from '@tma.js/sdk-react';
-import { type FC, type ReactNode, useMemo } from 'react';
-import type { User } from '@tma.js/sdk';
+import { useInitData, useInitDataRaw } from "@tma.js/sdk-react";
+import { type FC, type ReactNode, useMemo } from "react";
+import type { User } from "@tma.js/sdk";
+import { Typography } from "antd";
 
-import { DisplayData, type DisplayDataRow } from '~/components/DisplayData/DisplayData.tsx';
-import { Link } from '~/components/Link/Link.tsx';
-import { Page } from '~/components/Page/Page.tsx';
+import {
+  DisplayData,
+  type DisplayDataRow,
+} from "~/components/DisplayData/DisplayData.tsx";
+import { Link } from "~/components/Link/Link.tsx";
+import { Page } from "~/components/Page/Page.tsx";
 
-import './InitDataPage.css';
+import "./InitDataPage.css";
 
 function getUserRows(user: User): DisplayDataRow[] {
   return [
-    { title: 'id', value: user.id.toString() },
-    { title: 'last_name', value: user.lastName },
-    { title: 'first_name', value: user.firstName },
-    { title: 'is_bot', value: user.isBot },
-    { title: 'is_premium', value: user.isPremium },
-    { title: 'language_code', value: user.languageCode },
+    { title: "id", value: user.id.toString() },
+    { title: "last_name", value: user.lastName },
+    { title: "first_name", value: user.firstName },
+    { title: "is_bot", value: user.isBot },
+    { title: "is_premium", value: user.isPremium },
+    { title: "language_code", value: user.languageCode },
   ];
 }
 
@@ -38,16 +42,16 @@ export const InitDataPage: FC = () => {
       canSendAfterDate,
     } = initData;
     return [
-      { title: 'raw', value: initDataRaw },
-      { title: 'auth_date', value: authDate.toLocaleString() },
-      { title: 'auth_date (raw)', value: authDate.getTime() / 1000 },
-      { title: 'hash', value: hash },
-      { title: 'can_send_after', value: canSendAfterDate?.toISOString() },
-      { title: 'can_send_after (raw)', value: canSendAfter },
-      { title: 'query_id', value: queryId },
-      { title: 'start_param', value: startParam },
-      { title: 'chat_type', value: chatType },
-      { title: 'chat_instance', value: chatInstance },
+      { title: "raw", value: initDataRaw },
+      { title: "auth_date", value: authDate.toLocaleString() },
+      { title: "auth_date (raw)", value: authDate.getTime() / 1000 },
+      { title: "hash", value: hash },
+      { title: "can_send_after", value: canSendAfterDate?.toISOString() },
+      { title: "can_send_after (raw)", value: canSendAfter },
+      { title: "query_id", value: queryId },
+      { title: "start_param", value: startParam },
+      { title: "chat_type", value: chatType },
+      { title: "chat_instance", value: chatInstance },
     ];
   }, [initData, initDataRaw]);
 
@@ -56,7 +60,9 @@ export const InitDataPage: FC = () => {
   }, [initData]);
 
   const receiverRows = useMemo<DisplayDataRow[] | undefined>(() => {
-    return initData && initData.receiver ? getUserRows(initData.receiver) : undefined;
+    return initData && initData.receiver
+      ? getUserRows(initData.receiver)
+      : undefined;
   }, [initData]);
 
   const chatRows = useMemo<DisplayDataRow[] | undefined>(() => {
@@ -66,45 +72,63 @@ export const InitDataPage: FC = () => {
     const { id, title, type, username, photoUrl } = initData.chat;
 
     return [
-      { title: 'id', value: id.toString() },
-      { title: 'title', value: title },
-      { title: 'type', value: type },
-      { title: 'username', value: username },
-      { title: 'photo_url', value: photoUrl },
+      { title: "id", value: id.toString() },
+      { title: "title", value: title },
+      { title: "type", value: type },
+      { title: "username", value: username },
+      { title: "photo_url", value: photoUrl },
     ];
   }, [initData]);
 
   let contentNode: ReactNode;
 
   if (!initDataRows) {
-    contentNode = <i>Application was launched with missing init data</i>;
+    contentNode = (
+      <Typography.Text italic>
+        Application was launched with missing init data
+      </Typography.Text>
+    );
   } else {
     contentNode = (
       <>
         <div className="init-data-page__section">
-          <h2 className="init-data-page__section-title">Init data</h2>
+          <Typography.Title level={2} className="init-data-page__section-title">
+            Init data
+          </Typography.Title>
           <DisplayData rows={initDataRows} />
         </div>
 
         <div className="init-data-page__section">
-          <h2 className="init-data-page__section-title">User</h2>
-          {userRows
-            ? <DisplayData rows={userRows} />
-            : <i>User information missing</i>}
+          <Typography.Title level={2} className="init-data-page__section-title">
+            User
+          </Typography.Title>
+          {userRows ? (
+            <DisplayData rows={userRows} />
+          ) : (
+            <Typography.Text italic>User information missing</Typography.Text>
+          )}
         </div>
 
         <div className="init-data-page__section">
           <h2 className="init-data-page__section-title">Receiver</h2>
-          {receiverRows
-            ? <DisplayData rows={receiverRows} />
-            : <i>Receiver information missing</i>}
+          {receiverRows ? (
+            <DisplayData rows={receiverRows} />
+          ) : (
+            <Typography.Text italic>
+              Receiver information missing
+            </Typography.Text>
+          )}
         </div>
 
         <div className="init-data-page__section">
-          <h2 className="init-data-page__section-title">Chat</h2>
-          {chatRows
-            ? <DisplayData rows={chatRows} />
-            : <i>Chat information missing</i>}
+          <Typography.Title level={2} className="init-data-page__section-title">
+            Chat
+          </Typography.Title>
+          {chatRows ? (
+            <DisplayData rows={chatRows} />
+          ) : (
+            <Typography.Text italic>Chat information missing</Typography.Text>
+          )}
         </div>
       </>
     );
@@ -113,16 +137,15 @@ export const InitDataPage: FC = () => {
   return (
     <Page
       title="Init Data"
-      disclaimer={(
-        <>
-          This page displays application
-          {' '}
+      disclaimer={
+        <Typography.Paragraph>
+          This page displays application{" "}
           <Link to="https://docs.telegram-mini-apps.com/platform/launch-parameters">
             init data
           </Link>
           .
-        </>
-      )}
+        </Typography.Paragraph>
+      }
     >
       {contentNode}
     </Page>

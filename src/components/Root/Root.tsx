@@ -5,15 +5,15 @@ import { type FC, useEffect, useMemo } from 'react';
 
 import { App } from '~/components/App/App.tsx';
 
+import { AntdTheme } from '../AntdTheme/AntdTheme';
+
 const Err: FC<{ error: unknown }> = ({ error }) => {
   return (
     <div>
       <p>An error occurred while initializing the SDK</p>
       <blockquote>
         <code>
-          {error instanceof Error
-            ? error.message
-            : JSON.stringify(error)}
+          {error instanceof Error ? error.message : JSON.stringify(error)}
         </code>
       </blockquote>
     </div>
@@ -21,9 +21,7 @@ const Err: FC<{ error: unknown }> = ({ error }) => {
 };
 
 const Loading: FC = () => {
-  return (
-    <div>Application is loading</div>
-  );
+  return <div>Application is loading</div>;
 };
 
 export const Root: FC = () => {
@@ -38,9 +36,13 @@ export const Root: FC = () => {
 
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <SDKProvider options={{ acceptCustomStyles: true, cssVars: true, complete: true }}>
+      <SDKProvider
+        options={{ acceptCustomStyles: true, cssVars: true, complete: true }}
+      >
         <DisplayGate error={Err} loading={Loading} initial={Loading}>
-          <App />
+          <AntdTheme>
+            <App />
+          </AntdTheme>
         </DisplayGate>
       </SDKProvider>
     </TonConnectUIProvider>
