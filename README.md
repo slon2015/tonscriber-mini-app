@@ -1,4 +1,24 @@
-# Telegram Mini Apps React Boilerplate
+# Tonscriber
+
+Install mkcert:
+```Bash
+brew install mkcert
+mkcert -install
+```
+Create certificate for our local dev domain `tonscriber.local`:
+```Bash
+mkdir -p .cert && mkcert -key-file ./.cert/tonscriber-key.pem -cert-file ./.cert/tonscriber.pem 'tonscriber.local'
+```
+
+Open hosts file `sudo nano /etc/hosts` and add:
+```
+127.0.0.1 tonscriber.local
+```
+To run the app with https available at URL `https://tonscriber.local` sudi is required:
+```
+sudo pnpm run dev
+```
+## Default app description:
 
 This boilerplate demonstrates how developers can implement a single-page application on the Telegram
 Mini Apps platform using the following technologies:
